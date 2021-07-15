@@ -13,16 +13,18 @@ const app = () => {
         } else {
             add({ title: titleInput});
         }
+        // node src/app.js add --title "Thor" --actor "Chris Hemsworth"
     } else if (command === "list") {
       list();
+        // node src/app.js list
 
-    
     } else if (command === "update") {
         update(titleInput)
-    
+         // node src/app.js update --title "Thor"
 
     } else if (command === "delete") {
         remove(titleInput)
+         // node src/app.js delete --title "Thor"
         }
     }
 
