@@ -1,4 +1,5 @@
 const { Movie } = require("../movie/movie.model");
+const { closeConnection } = require("../db/connection");
 
 exports.add = async (entryObj) => {
     try {
@@ -8,21 +9,23 @@ exports.add = async (entryObj) => {
     } catch (error) {
         console.log(error);
     }
+    closeConnection();
 };
 
-exports.list = async() =>{
+exports.list = async() => {
     try {
-        Movie.find( function (err, movie){
-            if (err) return console.error(err);
-            console.log(movie)
-        })     } catch (error) {
+        const movies = await Movie.find();
+            console.log(movies)
+        }    catch (error) {
         console.log(error)
     }
+    closeConnection();
 };
 
 exports.update = async(titleInput) => {
-    let query = { title: titleInput };
+   
     try {
+        let query = { title: titleInput };
         Movie.findOneAndUpdate(query, { watched : true } , function (err, movie){
             if (err) handleError(err);
             console.log(`You have set the status of ${movie.title} to finished`)
@@ -30,11 +33,13 @@ exports.update = async(titleInput) => {
     } catch (err) {
         console.log(err)
     }
+    // closeConnection();
 };
 
 exports.remove = async(titleInput) =>{
-    let query = { title: titleInput };
+
     try {
+        let query = { title: titleInput };
         Movie.findOneAndRemove(query, function (err, movie){
             if (err) return handleError(err);
             console.log(`${movie.title} has been removed from the list.`)
@@ -42,4 +47,5 @@ exports.remove = async(titleInput) =>{
     } catch (error) {
         console.log(error)
     }
+    // closeConnection();
 };
